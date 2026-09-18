@@ -1,156 +1,115 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDown, ArrowRight, MapPin, Menu, MessageCircle } from "lucide-react";
+import { useState, type FormEvent } from "react";
+import {
+  ArrowDown,
+  ArrowRight,
+  CalendarDays,
+  Check,
+  Clock3,
+  MapPin,
+  MessageCircle,
+  ShoppingBag,
+  Store,
+  Target,
+} from "lucide-react";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import {
-  cities,
-  experienceItems,
-  learningGoals,
-  program,
-  supermarkets,
-  whatsappHref,
-} from "@/lib/bootcamp-data";
+import heroAsset from "@/assets/formatrice-rooftop.png.asset.json";
+import portraitAsset from "@/assets/formatrice-produit.png.asset.json";
+import shelfOneAsset from "@/assets/produits-rayon-1.jpeg.asset.json";
+import shelfTwoAsset from "@/assets/produits-rayon-2.jpeg.asset.json";
+import { experienceItems, learningGoals, program, supermarkets, cities, whatsappNumber } from "@/lib/bootcamp-data";
+
+const placeAddress = "Silikin Village, Concession COTEX, N° 63, Avenue Colonel Mondjiba, Commune de la Gombe, Kinshasa, République Démocratique du Congo";
+const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(placeAddress)}&output=embed`;
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Business Start & Sales Bootcamp — Foundation des Sisters" },
-      {
-        name: "description",
-        content: "6 jours de formation pratique à Kinshasa pour lancer, structurer et développer un business qui vend.",
-      },
-      { property: "og:title", content: "Business Start & Sales Bootcamp — Foundation des Sisters" },
-      {
-        property: "og:description",
-        content: "6 jours pour apprendre à lancer, structurer et développer un business qui vend.",
-      },
+      { title: "Business Start & Sales Bootcamp — Fondation The Sisters" },
+      { name: "description", content: "2e édition du Business Start & Sales Bootcamp, du 19 au 24 octobre à Silikin Village, Kinshasa." },
+      { property: "og:title", content: "Business Start & Sales Bootcamp — 2e édition" },
+      { property: "og:description", content: "Six jours pour lancer, structurer et développer un business qui vend, du 19 au 24 octobre à Kinshasa." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
   }),
   component: HomePage,
 });
 
-const navigation = [
-  ["À propos", "#a-propos"],
-  ["Formation", "#formation"],
-  ["Programme", "#programme"],
-  ["FAQ", "#faq"],
-] as const;
-
-function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
+function ReserveButton({ label = "Je réserve ma place", dark = false }: { label?: string; dark?: boolean }) {
   return (
-    <div className="max-w-3xl">
-      <p className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-primary">
-        <span className="h-px w-8 bg-primary" />
-        {eyebrow}
-      </p>
-      <h2 className="font-display text-4xl font-semibold leading-[0.98] text-foreground sm:text-5xl lg:text-6xl">
-        {title}
-      </h2>
-    </div>
-  );
-}
-
-function WhatsAppButton({ inverse = false, label = "S’inscrire sur WhatsApp" }: { inverse?: boolean; label?: string }) {
-  return (
-    <Button asChild variant={inverse ? "inverse" : "editorial"} size="editorial">
-      <a href={whatsappHref} target="_blank" rel="noreferrer">
-        <MessageCircle aria-hidden="true" />
-        {label}
-      </a>
+    <Button asChild size="editorial" className={dark ? "bg-foreground text-background hover:bg-gold" : "bg-gold text-noir hover:bg-ivory"}>
+      <a href="#reservation">{label}<ArrowRight aria-hidden="true" /></a>
     </Button>
   );
 }
 
-function Header() {
+function SectionTitle({ kicker, children, light = false }: { kicker: string; children: React.ReactNode; light?: boolean }) {
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur-sm">
-      <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
-        <a href="#accueil" className="font-display text-xl font-bold leading-none text-foreground sm:text-2xl">
-          Foundation <span className="text-primary">des Sisters</span>
-        </a>
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Navigation principale">
-          {navigation.map(([label, href]) => (
-            <a key={href} href={href} className="text-xs font-bold uppercase tracking-[0.12em] text-foreground transition-colors hover:text-primary">
-              {label}
-            </a>
-          ))}
-          <Button asChild variant="editorial" size="default">
-            <a href={whatsappHref} target="_blank" rel="noreferrer">S’inscrire</a>
-          </Button>
-        </nav>
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Ouvrir le menu">
-              <Menu aria-hidden="true" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent className="border-border bg-background px-7 pt-16 lg:hidden">
-            <SheetTitle className="font-display text-2xl">Foundation des Sisters</SheetTitle>
-            <nav className="mt-10 flex flex-col" aria-label="Navigation mobile">
-              {navigation.map(([label, href]) => (
-                <SheetClose asChild key={href}>
-                  <a href={href} className="border-t border-border py-5 text-sm font-bold uppercase tracking-[0.12em]">{label}</a>
-                </SheetClose>
-              ))}
-              <div className="mt-7"><WhatsAppButton label="S’inscrire" /></div>
-            </nav>
-          </SheetContent>
-        </Sheet>
-      </div>
-    </header>
+    <div className="max-w-4xl">
+      <p className={`mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] ${light ? "text-gold" : "text-primary"}`}>
+        <span className="h-px w-8 bg-current" />{kicker}
+      </p>
+      <h2 className={`font-display text-4xl font-semibold leading-[0.98] sm:text-5xl lg:text-7xl ${light ? "text-primary-foreground" : "text-foreground"}`}>{children}</h2>
+    </div>
   );
 }
 
 function Hero() {
-  const facts = [
-    ["Lieu", "Kinshasa"],
-    ["Date", "[DATE À VENIR]"],
-    ["Durée", "6 jours de formation pratique"],
-    ["Participation", "[PRIX À VENIR]"],
-    ["Places", "Places limitées"],
-  ];
   return (
-    <section id="accueil" className="relative overflow-hidden bg-surface-strong text-primary-foreground">
-      <div className="pattern-weave absolute inset-y-0 right-0 w-[38%] opacity-20" aria-hidden="true" />
-      <div className="relative mx-auto grid min-h-[calc(100svh-4.5rem)] max-w-7xl gap-10 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-[1fr_0.65fr] lg:px-12 lg:py-20">
-        <div className="flex flex-col justify-between gap-14">
-          <div>
-            <p className="mb-8 text-xs font-bold uppercase tracking-[0.2em] text-gold">Business Start & Sales Bootcamp</p>
-            <h1 className="text-balance max-w-4xl font-display text-[2.7rem] font-semibold leading-[0.94] sm:text-6xl lg:text-7xl xl:text-[5.25rem]">
-              TU AS UN BUSINESS, MAIS TU N’ARRIVES PAS À FAIRE DES VENTES ?
-              <span className="mt-6 block text-gold">OU TU VEUX TE LANCER, MAIS TU NE SAIS PAS PAR OÙ COMMENCER ?</span>
-            </h1>
-          </div>
-          <div>
-            <p className="max-w-2xl font-display text-2xl leading-tight sm:text-3xl">6 jours pour apprendre à lancer, structurer et développer un business qui vend.</p>
-            <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-              <WhatsAppButton inverse />
-              <a href="#formation" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-primary-foreground/80 hover:text-primary-foreground">
-                Découvrir la formation <ArrowDown className="size-4" aria-hidden="true" />
-              </a>
-            </div>
+    <section id="accueil" className="relative min-h-[100svh] overflow-hidden bg-noir text-primary-foreground">
+      <img src={heroAsset.url} alt="La formatrice devant une vue nocturne de la ville" className="absolute inset-0 size-full object-cover object-[53%_center]" />
+      <div className="hero-overlay absolute inset-0" />
+      <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-between px-5 py-8 sm:px-8 lg:px-12 lg:py-12">
+        <div className="flex items-center justify-between border-b border-primary-foreground/20 pb-5">
+          <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-gold">Fondation The Sisters présente</p>
+          <p className="text-[0.65rem] font-bold uppercase tracking-[0.2em]">Kinshasa · 2e édition</p>
+        </div>
+        <div className="my-auto max-w-5xl py-16">
+          <p className="mb-7 inline-flex items-center gap-3 border border-gold/40 bg-noir/40 px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-gold backdrop-blur-md">
+            <span className="size-1.5 bg-gold" /> Du 19 au 24 octobre · 9h à 11h
+          </p>
+          <h1 className="max-w-5xl font-display text-5xl font-semibold uppercase leading-[0.9] sm:text-7xl lg:text-8xl xl:text-[6.6rem]">
+            Business Start <span className="text-gold">& Sales</span> Bootcamp
+          </h1>
+          <p className="mt-8 max-w-2xl text-base leading-7 text-primary-foreground/75 sm:text-xl">6 jours pour apprendre à lancer, structurer et développer un business qui vend.</p>
+          <div className="mt-9 flex flex-col items-start gap-5 sm:flex-row sm:items-center">
+            <ReserveButton />
+            <a href="#programme" className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.14em] text-primary-foreground/75 transition-colors hover:text-gold">Découvrir le programme <ArrowDown className="size-4" /></a>
           </div>
         </div>
-        <aside className="self-end border-t border-primary-foreground/30 lg:border-l lg:border-t-0 lg:pl-10">
-          <dl className="divide-y divide-primary-foreground/20">
-            {facts.map(([label, value]) => (
-              <div key={label} className="grid grid-cols-[7rem_1fr] gap-4 py-4">
-                <dt className="text-xs font-bold uppercase tracking-[0.14em] text-gold">{label}</dt>
-                <dd className="text-sm font-semibold">{value}</dd>
-              </div>
-            ))}
-            <div className="grid grid-cols-[7rem_1fr] gap-4 py-4">
-              <dt className="text-xs font-bold uppercase tracking-[0.14em] text-gold">Inscriptions</dt>
-              <dd><a className="font-semibold underline underline-offset-4" href={whatsappHref}>+12093465943</a></dd>
-            </div>
-          </dl>
-        </aside>
+        <dl className="grid border-t border-primary-foreground/20 sm:grid-cols-3">
+          {[
+            [CalendarDays, "Dates", "19 — 24 octobre"],
+            [Clock3, "Horaires", "9h — 11h"],
+            [MapPin, "Lieu", "Silikin Village, Gombe"],
+          ].map(([Icon, label, value]) => {
+            const InfoIcon = Icon as typeof CalendarDays;
+            return <div key={String(label)} className="flex items-center gap-4 border-b border-primary-foreground/20 py-5 sm:border-b-0 sm:border-r sm:px-6 first:pl-0 last:border-r-0"><InfoIcon className="size-5 text-gold" /><div><dt className="text-[0.62rem] font-bold uppercase tracking-[0.15em] text-primary-foreground/55">{String(label)}</dt><dd className="mt-1 text-sm font-semibold">{String(value)}</dd></div></div>;
+          })}
+        </dl>
+      </div>
+    </section>
+  );
+}
+
+function Stakes() {
+  return (
+    <section className="bg-ivory px-5 py-20 sm:px-8 lg:px-12 lg:py-32">
+      <div className="mx-auto max-w-7xl">
+        <p className="max-w-5xl font-display text-4xl font-semibold leading-tight text-foreground sm:text-6xl">Tu as un business, mais tu n’arrives pas à faire des ventes ? <span className="text-primary">Ou tu veux te lancer, mais tu ne sais pas par où commencer ?</span></p>
+        <div className="mt-14 grid gap-px bg-border md:grid-cols-3">
+          {[
+            [Target, "Une méthode claire", "Lancer ou relancer son activité avec une stratégie adaptée au marché."],
+            [ShoppingBag, "Des ventes concrètes", "Attirer des clients, présenter son offre et convertir sur WhatsApp."],
+            [Store, "Une expérience terrain", "Des enseignements issus de six années d’entrepreneuriat réel."],
+          ].map(([Icon, title, copy]) => {
+            const CardIcon = Icon as typeof Target;
+            return <article key={String(title)} className="bg-background p-8 lg:p-10"><CardIcon className="size-8 text-gold" /><h3 className="mt-10 font-display text-2xl font-semibold">{String(title)}</h3><p className="mt-4 text-sm leading-7 text-muted-foreground">{String(copy)}</p></article>;
+          })}
+        </div>
       </div>
     </section>
   );
@@ -158,69 +117,39 @@ function Hero() {
 
 function About() {
   return (
-    <section id="a-propos" className="scroll-mt-24 px-5 py-20 sm:px-8 sm:py-28 lg:px-12 lg:py-36">
-      <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.7fr_1fr] lg:gap-24">
+    <section className="bg-background px-5 py-20 sm:px-8 lg:px-12 lg:py-32">
+      <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.85fr_1fr] lg:items-center lg:gap-24">
+        <div className="relative">
+          <img src={portraitAsset.url} alt="La formatrice présentant l’un de ses produits" className="aspect-[4/5] w-full object-cover" />
+          <div className="absolute -bottom-7 right-0 bg-gold px-7 py-6 text-noir sm:right-[-2rem]"><strong className="block font-display text-4xl">6 ans</strong><span className="text-[0.65rem] font-bold uppercase tracking-[0.14em]">d’expérience terrain</span></div>
+        </div>
         <div>
-          <SectionHeading eyebrow="À propos de moi" title="Une connaissance née du terrain." />
-          <div className="mt-12 hidden aspect-[4/5] items-end border border-border bg-surface p-6 lg:flex">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">Photo à venir</p>
+          <SectionTitle kicker="À propos de la formatrice">Une connaissance née du terrain.</SectionTitle>
+          <div className="mt-10 space-y-5 text-base leading-8 text-ink-soft">
+            <p className="font-display text-2xl font-semibold leading-snug text-foreground">Entreprendre depuis 6 ans aux côtés de ma sœur m’a appris une chose : un business ne se construit pas en un jour, et rien n’est jamais aussi facile qu’il n’y paraît.</p>
+            <p>J’ai connu des réussites, des échecs, des périodes de doute, des pertes et des obstacles. Ce parcours m’a permis de développer une véritable connaissance du marché congolais et de son consommateur.</p>
+            <p>Avec ma sœur, nous avons construit plusieurs activités dans les produits nutritionnels, la mode et la vente de vêtements. Nos bouillies protéinées sont aujourd’hui distribuées dans plusieurs pays africains et disponibles dans de nombreux grands supermarchés.</p>
           </div>
-        </div>
-        <div className="space-y-6 text-base leading-8 text-ink-soft sm:text-lg">
-          <p className="font-display text-2xl font-semibold leading-snug text-foreground sm:text-3xl">Entreprendre depuis 6 ans aux côtés de ma sœur m’a appris une chose : un business ne se construit pas en un jour, et rien n’est jamais aussi facile qu’il n’y paraît.</p>
-          <p>Pendant ces 6 années, j’ai connu des réussites, des échecs, des périodes de doute, des pertes, des obstacles et des moments où il fallait simplement continuer malgré tout.</p>
-          <p>Et aujourd’hui encore, je continue d’apprendre et de relever de nouveaux défis. Mais tout ce parcours m’a permis de développer une véritable connaissance du marché congolais et une capacité à m’adapter à sa réalité.</p>
-          <p>Avec ma sœur, nous avons construit et développé plusieurs activités dans différents secteurs.</p>
-          <p>Nous sommes notamment présentes dans le domaine des produits nutritionnels, avec nos bouillies protéinées, aujourd’hui distribuées dans plusieurs pays africains et disponibles dans de nombreux grands supermarchés, dont 24 supermarchés à Kinshasa.</p>
-          <p>Nous évoluons également dans le secteur de la mode et de la vente de vêtements, avec une clientèle qui achète régulièrement.</p>
-          <p>Au fil des années, j’ai surtout appris à comprendre le consommateur congolais : ses besoins, son pouvoir d’achat, ses habitudes, ce qui attire son attention et surtout ce qui le pousse réellement à acheter.</p>
-          <p>Mon approche est particulièrement tournée vers le grand public, les personnes qui travaillent chaque jour, qui ont des revenus réguliers et qui consomment au quotidien.</p>
+          <div className="mt-10 grid grid-cols-2 gap-4 border-t border-border pt-7 sm:grid-cols-3">{experienceItems.slice(0,3).map((item) => <p key={item} className="text-xs font-bold uppercase leading-5 tracking-[0.1em]">{item}</p>)}</div>
         </div>
       </div>
     </section>
   );
 }
 
-function Experience() {
+function Proof() {
   return (
-    <section className="border-y border-border bg-surface">
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
-        <p className="mb-10 text-xs font-bold uppercase tracking-[0.18em] text-primary">Expérience / Terrain</p>
-        <div className="grid border-l border-t border-border sm:grid-cols-2 lg:grid-cols-5">
-          {experienceItems.map((item, index) => (
-            <div key={item} className="min-h-40 border-b border-r border-border p-6 lg:min-h-52">
-              <span className="font-display text-3xl text-secondary">0{index + 1}</span>
-              <p className="mt-10 font-display text-xl font-semibold leading-tight">{item}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Why() {
-  return (
-    <section id="formation" className="scroll-mt-20 px-5 py-20 sm:px-8 sm:py-28 lg:px-12 lg:py-36">
+    <section className="bg-noir px-5 py-20 text-primary-foreground sm:px-8 lg:px-12 lg:py-32">
       <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Pourquoi cette formation ?" title="Partager ce que j’ai réellement appris." />
-        <div className="mt-14 grid gap-12 lg:grid-cols-2 lg:gap-24">
-          <div className="space-y-6 text-lg leading-8 text-ink-soft">
-            <p className="font-display text-3xl font-semibold leading-tight text-foreground">Cette formation est née de mes propres expériences.</p>
-            <p>Je ne viens pas vous promettre une recette magique pour devenir riche rapidement. Je viens partager ce que j’ai réellement appris en entreprenant pendant 6 ans.</p>
-            <div className="border-l-2 border-secondary pl-6 font-semibold text-foreground">
-              <p>Les stratégies qui ont fonctionné pour moi.</p>
-              <p>Les erreurs que j’aurais aimé éviter.</p>
-              <p>Les réalités du marché que l’on ne vous apprend pas toujours.</p>
-              <p>Les méthodes que j’utilise pour vendre.</p>
-              <p>Et surtout, comment apprendre à comprendre son client avant de vouloir lui vendre.</p>
+        <SectionTitle kicker="Preuves / Distribution" light>Du terrain aux rayons des grandes surfaces.</SectionTitle>
+        <div className="mt-14 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+          <img src={shelfTwoAsset.url} alt="Produits protéinés présentés en rayon" className="h-full min-h-80 w-full object-cover" />
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
+            <img src={shelfOneAsset.url} alt="Produits disponibles dans un supermarché" className="aspect-[4/3] size-full object-cover" />
+            <div className="grid grid-cols-2 gap-8 border border-primary-foreground/15 p-7">
+              <div><p className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-gold">Supermarchés</p><p className="mt-3 text-sm leading-7">{supermarkets.join(" · ")}</p></div>
+              <div><p className="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-gold">Villes</p><p className="mt-3 text-sm leading-7">{cities.join(" · ")}</p></div>
             </div>
-          </div>
-          <div className="space-y-6 text-lg leading-8 text-ink-soft">
-            <p>Je souhaite vous transmettre des connaissances nées du terrain, de l’expérience et de situations réelles.</p>
-            <p>Et parce que je continue moi-même à entreprendre, cette formation sera également un espace d’échange : je viens partager mes connaissances, mais aussi continuer à apprendre avec vous.</p>
-            <p>Si vous avez déjà une activité mais que vous avez du mal à vendre, si vous souhaitez lancer votre business mais ne savez pas par où commencer, ou si vous voulez simplement apprendre à mieux comprendre le marché et développer vos ventes…</p>
-            <p className="font-display text-4xl font-semibold text-primary">Cette formation est pour vous.</p>
           </div>
         </div>
       </div>
@@ -230,37 +159,10 @@ function Why() {
 
 function Learning() {
   return (
-    <section className="bg-primary px-5 py-20 text-primary-foreground sm:px-8 sm:py-28 lg:px-12">
-      <div className="mx-auto max-w-7xl">
-        <p className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-gold">Pour qui ? / Ce que la formation permet d’apprendre</p>
-        <div className="grid gap-12 lg:grid-cols-[0.65fr_1fr] lg:gap-20">
-          <h2 className="font-display text-4xl font-semibold leading-none sm:text-6xl">Pas seulement apprendre à créer un business.<br /><span className="text-gold">Apprendre à le faire fonctionner.</span></h2>
-          <ol className="grid gap-x-8 sm:grid-cols-2">
-            {learningGoals.map((goal, index) => (
-              <li key={goal} className="flex gap-4 border-t border-primary-foreground/25 py-5">
-                <span className="font-display text-xl text-gold">0{index + 1}</span>
-                <span className="text-sm leading-6">{goal}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function MediaSection() {
-  return (
-    <section className="px-5 py-20 sm:px-8 sm:py-28 lg:px-12">
-      <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Médias / Expertise" title="L’expertise, le terrain et l’univers de la formation." />
-        <div className="mt-12 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-12">
-          <div className="col-span-2 flex aspect-[4/5] items-end border border-border bg-surface p-5 sm:aspect-[16/10] lg:col-span-7"><span className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">Photo / vidéo à venir</span></div>
-          <div className="col-span-1 flex aspect-[3/4] items-end border border-border bg-muted p-5 lg:col-span-5 lg:aspect-auto"><span className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">Média à venir</span></div>
-          <div className="col-span-1 flex aspect-square items-end border border-border bg-muted p-5 lg:col-span-4"><span className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">Média à venir</span></div>
-          <div className="col-span-1 flex aspect-square items-end border border-border bg-surface p-5 lg:col-span-4"><span className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">Média à venir</span></div>
-          <div className="col-span-2 flex aspect-[2/1] items-end border border-border bg-muted p-5 lg:col-span-4 lg:aspect-square"><span className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">Média à venir</span></div>
-        </div>
+    <section className="bg-gold px-5 py-20 text-noir sm:px-8 lg:px-12 lg:py-32">
+      <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
+        <div><p className="text-xs font-bold uppercase tracking-[0.18em]">Ce que vous allez maîtriser</p><h2 className="mt-5 font-display text-4xl font-semibold leading-none sm:text-6xl">Pas seulement créer un business. Le faire fonctionner.</h2></div>
+        <ol className="grid gap-x-8 sm:grid-cols-2">{learningGoals.map((goal, index) => <li key={goal} className="flex gap-4 border-t border-noir/25 py-5"><span className="font-display text-xl">0{index + 1}</span><span className="text-sm leading-6">{goal}</span></li>)}</ol>
       </div>
     </section>
   );
@@ -268,146 +170,80 @@ function MediaSection() {
 
 function Program() {
   return (
-    <section id="programme" className="scroll-mt-20 border-y border-border bg-surface px-5 py-20 sm:px-8 sm:py-28 lg:px-12 lg:py-36">
+    <section id="programme" className="scroll-mt-8 bg-ivory px-5 py-20 sm:px-8 lg:px-12 lg:py-32">
       <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Programme — 6 jours" title="Six journées de formation pratique." />
-        <div className="mt-14 divide-y divide-border border-t border-border">
-          {program.map((entry, index) => (
-            <article key={entry.day} className="grid gap-6 py-10 sm:grid-cols-[7rem_1fr] lg:grid-cols-[8rem_0.75fr_1fr] lg:gap-12 lg:py-14">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{entry.day}</p>
-              <h3 className="font-display text-3xl font-semibold leading-tight lg:text-4xl"><span className="mr-3 text-secondary">0{index + 1}</span>{entry.title}</h3>
-              <ul className="space-y-3 text-sm leading-6 text-ink-soft sm:col-start-2 lg:col-start-auto">
-                {entry.items.map((item) => <li key={item} className="flex gap-3"><span className="mt-2.5 size-1.5 shrink-0 bg-secondary" aria-hidden="true" />{item}</li>)}
-              </ul>
-            </article>
-          ))}
+        <SectionTitle kicker="Programme · 6 jours">Un plan d’action, jour après jour.</SectionTitle>
+        <div className="mt-14 border-t border-border">
+          {program.map((entry, index) => <article key={entry.day} className="grid gap-5 border-b border-border py-9 lg:grid-cols-[7rem_0.8fr_1.2fr] lg:gap-12 lg:py-12"><p className="text-xs font-bold uppercase tracking-[0.15em] text-primary">{entry.day}</p><h3 className="font-display text-2xl font-semibold leading-tight sm:text-3xl"><span className="mr-3 text-gold">0{index + 1}</span>{entry.title}</h3><ul className="grid gap-3 text-sm leading-6 text-ink-soft sm:grid-cols-2 lg:grid-cols-1">{entry.items.map((item) => <li key={item} className="flex gap-3"><Check className="mt-1 size-4 shrink-0 text-primary" />{item}</li>)}</ul></article>)}
         </div>
       </div>
     </section>
   );
 }
 
-function Distribution() {
+function Location() {
   return (
-    <section className="px-5 py-20 sm:px-8 sm:py-28 lg:px-12">
-      <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Expérience / Distribution" title="Une présence dans plusieurs villes et supermarchés." />
-        <div className="mt-14 grid gap-12 lg:grid-cols-2 lg:gap-24">
-          <div><p className="mb-6 text-xs font-bold uppercase tracking-[0.16em] text-primary">Supermarchés mentionnés</p><ul className="divide-y divide-border border-t border-border">{supermarkets.map((item) => <li className="py-4 font-display text-2xl" key={item}>{item}</li>)}</ul></div>
-          <div><p className="mb-6 text-xs font-bold uppercase tracking-[0.16em] text-primary">Villes mentionnées</p><ul className="divide-y divide-border border-t border-border">{cities.map((item) => <li className="flex items-center gap-3 py-4 font-display text-2xl" key={item}><MapPin className="size-4 text-secondary" aria-hidden="true" />{item}</li>)}</ul></div>
+    <section className="bg-background px-5 py-20 sm:px-8 lg:px-12 lg:py-32">
+      <div className="mx-auto grid max-w-7xl overflow-hidden border border-border lg:grid-cols-[0.75fr_1.25fr]">
+        <div className="flex flex-col justify-between p-8 sm:p-12">
+          <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Lieu de la formation</p><h2 className="mt-5 font-display text-4xl font-semibold sm:text-5xl">Silikin Village</h2><p className="mt-7 max-w-md text-sm leading-7 text-ink-soft">Concession COTEX, N° 63, Avenue Colonel Mondjiba, Commune de la Gombe, Kinshasa, République Démocratique du Congo.</p></div>
+          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(placeAddress)}`} target="_blank" rel="noreferrer" className="mt-10 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.12em] text-primary">Ouvrir dans Google Maps <ArrowRight className="size-4" /></a>
         </div>
+        <iframe src={mapUrl} title="Carte de Silikin Village" loading="lazy" referrerPolicy="no-referrer-when-downgrade" className="min-h-96 w-full border-0 grayscale-[0.3]" />
       </div>
     </section>
   );
 }
 
-function Trainer() {
+function Reservation() {
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const firstName = String(form.get("firstName") ?? "").trim();
+    const lastName = String(form.get("lastName") ?? "").trim();
+    const email = String(form.get("email") ?? "").trim();
+    const nextErrors: Record<string, string> = {};
+    if (!firstName || firstName.length > 80) nextErrors["firstName"] = "Indiquez un nom valide.";
+    if (!lastName || lastName.length > 80) nextErrors["lastName"] = "Indiquez un post-nom valide.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) nextErrors["email"] = "Indiquez une adresse email valide.";
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) return;
+    const message = `Bonjour Fondation The Sisters, je souhaite réserver ma place pour la 2e édition du Business Start & Sales Bootcamp, du 19 au 24 octobre.\n\nNom : ${firstName}\nPost-nom : ${lastName}\nEmail : ${email}`;
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+  }
   return (
-    <section className="bg-surface-strong px-5 py-20 text-primary-foreground sm:px-8 sm:py-28 lg:px-12">
-      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2 lg:items-center lg:gap-20">
-        <div className="aspect-[4/5] border border-primary-foreground/30 bg-primary-foreground/5 p-6"><p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-foreground/65">Photo à venir</p></div>
-        <div>
-          <p className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-gold">Profil de la formatrice</p>
-          <h2 className="font-display text-5xl font-semibold leading-none sm:text-6xl">Profil personnel à venir.</h2>
-          <div className="mt-10 h-px w-full bg-primary-foreground/25" />
-        </div>
+    <section id="reservation" className="scroll-mt-6 bg-noir px-5 py-20 text-primary-foreground sm:px-8 lg:px-12 lg:py-32">
+      <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.8fr_1fr] lg:gap-24">
+        <div><SectionTitle kicker="Réservation" light>Votre place commence ici.</SectionTitle><p className="mt-8 max-w-lg text-base leading-8 text-primary-foreground/65">Remplissez vos informations. Votre demande sera préparée et envoyée directement sur WhatsApp.</p><div className="mt-10 space-y-4 border-t border-primary-foreground/15 pt-8 text-sm"><p className="flex gap-3"><CalendarDays className="size-5 text-gold" /> 19 au 24 octobre · 9h à 11h</p><p className="flex gap-3"><MapPin className="size-5 text-gold" /> Silikin Village, Gombe</p></div></div>
+        <form onSubmit={submit} noValidate className="border border-primary-foreground/15 bg-primary-foreground/[0.04] p-7 sm:p-10">
+          <div className="grid gap-7 sm:grid-cols-2">
+            <Field label="Nom" name="firstName" error={errors["firstName"]} />
+            <Field label="Post-nom" name="lastName" error={errors["lastName"]} />
+            <div className="sm:col-span-2"><Field label="Boîte email" name="email" type="email" error={errors["email"]} /></div>
+          </div>
+          <Button type="submit" size="editorial" className="mt-8 w-full bg-gold text-noir hover:bg-ivory"><MessageCircle /> Je réserve ma place</Button>
+          <p className="mt-4 text-center text-xs leading-5 text-primary-foreground/45">Vous serez redirigé(e) vers WhatsApp pour finaliser votre réservation.</p>
+        </form>
       </div>
     </section>
   );
 }
 
-function Enrollment() {
-  return (
-    <section id="inscription" className="px-5 py-20 sm:px-8 sm:py-28 lg:px-12 lg:py-36">
-      <div className="mx-auto max-w-7xl border-y border-border py-14 lg:grid lg:grid-cols-[1fr_0.7fr] lg:gap-20 lg:py-20">
-        <div>
-          <p className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-primary">Offre / Inscription</p>
-          <h2 className="font-display text-5xl font-semibold leading-[0.95] sm:text-6xl">Une formation basée sur l’expérience réelle du terrain.</h2>
-        </div>
-        <div className="mt-10 lg:mt-0">
-          <dl className="grid grid-cols-2 gap-x-5 gap-y-7 text-sm">
-            <div><dt className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Lieu</dt><dd className="mt-2 font-bold">Kinshasa</dd></div>
-            <div><dt className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Date</dt><dd className="mt-2 font-bold">Date à venir</dd></div>
-            <div><dt className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Durée</dt><dd className="mt-2 font-bold">6 jours</dd></div>
-            <div><dt className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Participation</dt><dd className="mt-2 font-bold">À venir</dd></div>
-            <div><dt className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Places</dt><dd className="mt-2 font-bold">Places limitées</dd></div>
-            <div><dt className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Contact</dt><dd className="mt-2 font-bold">+12093465943</dd></div>
-          </dl>
-          <div className="mt-9"><WhatsAppButton /></div>
-        </div>
-      </div>
-    </section>
-  );
+function Field({ label, name, type = "text", error }: { label: string; name: string; type?: string; error?: string | undefined }) {
+  return <label className="block"><span className="text-xs font-bold uppercase tracking-[0.12em] text-gold">{label}</span><input name={name} type={type} maxLength={type === "email" ? 254 : 80} aria-invalid={Boolean(error)} aria-describedby={error ? `${name}-error` : undefined} className="mt-3 h-13 w-full border border-primary-foreground/20 bg-transparent px-4 text-sm text-primary-foreground outline-none transition-colors placeholder:text-primary-foreground/30 focus:border-gold" />{error && <span id={`${name}-error`} className="mt-2 block text-xs text-destructive">{error}</span>}</label>;
 }
 
 function Faq() {
-  const faqs = [
-    ["Où se déroule la formation ?", "La formation se déroule à Kinshasa."],
-    ["Combien de temps dure la formation ?", "La formation pratique dure 6 jours."],
-    ["À qui s’adresse cette formation ?", "Elle s’adresse aux personnes qui ont déjà une activité mais ont du mal à vendre, à celles qui souhaitent lancer leur business mais ne savent pas par où commencer, et à celles qui veulent mieux comprendre le marché et développer leurs ventes."],
-    ["Comment s’inscrire ?", "Les inscriptions se font via WhatsApp au +12093465943."],
-    ["Quand la formation aura-t-elle lieu et quel sera le prix ?", "La date et le prix seront communiqués prochainement."],
+  const entries = [
+    ["Quand aura lieu la formation ?", "La 2e édition se déroule du 19 au 24 octobre, de 9h à 11h."],
+    ["Où se déroule la formation ?", "À Silikin Village, Concession COTEX, N° 63, Avenue Colonel Mondjiba, Commune de la Gombe, Kinshasa."],
+    ["À qui s’adresse cette formation ?", "Aux personnes qui veulent lancer leur business, mieux comprendre le marché ou développer leurs ventes."],
+    ["Comment réserver ma place ?", "Remplissez le formulaire de réservation. Votre demande complète sera ensuite envoyée sur WhatsApp."],
   ];
-  return (
-    <section id="faq" className="scroll-mt-20 bg-surface px-5 py-20 sm:px-8 sm:py-28 lg:px-12">
-      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.65fr_1fr] lg:gap-24">
-        <SectionHeading eyebrow="FAQ" title="Informations pratiques." />
-        <Accordion type="single" collapsible className="border-t border-border">
-          {faqs.map(([question, answer], index) => (
-            <AccordionItem value={`item-${index}`} key={question}>
-              <AccordionTrigger className="py-6 text-left font-display text-xl font-semibold hover:no-underline">{question}</AccordionTrigger>
-              <AccordionContent className="max-w-2xl pb-6 text-base leading-7 text-ink-soft">{answer}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
-    </section>
-  );
-}
-
-function FinalCta() {
-  return (
-    <section className="relative overflow-hidden bg-secondary px-5 py-20 text-secondary-foreground sm:px-8 sm:py-28 lg:px-12">
-      <div className="pattern-weave absolute inset-0 opacity-15" aria-hidden="true" />
-      <div className="relative mx-auto max-w-5xl text-center">
-        <p className="text-xs font-bold uppercase tracking-[0.18em]">Business Start & Sales Bootcamp</p>
-        <h2 className="text-balance mt-6 font-display text-5xl font-semibold leading-[0.95] sm:text-7xl">6 jours pour apprendre à lancer, structurer et développer un business qui vend.</h2>
-        <a href={whatsappHref} target="_blank" rel="noreferrer" className="mt-10 inline-flex items-center gap-3 border-b-2 border-secondary-foreground pb-2 text-lg font-bold">+12093465943 <ArrowRight aria-hidden="true" /></a>
-      </div>
-    </section>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="bg-surface-strong px-5 py-10 text-primary-foreground sm:px-8 lg:px-12">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 border-t border-primary-foreground/20 pt-8 sm:flex-row sm:items-end sm:justify-between">
-        <p className="font-display text-2xl font-semibold">Foundation des Sisters</p>
-        <a href="#accueil" className="text-xs font-bold uppercase tracking-[0.14em] text-primary-foreground/70 hover:text-primary-foreground">Retour en haut</a>
-      </div>
-    </footer>
-  );
+  return <section className="bg-ivory px-5 py-20 sm:px-8 lg:px-12 lg:py-28"><div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.6fr_1fr] lg:gap-24"><SectionTitle kicker="Questions fréquentes">Les informations essentielles.</SectionTitle><Accordion type="single" collapsible className="border-t border-border">{entries.map(([q,a],i)=><AccordionItem key={q} value={`faq-${i}`}><AccordionTrigger className="py-6 text-left font-display text-xl font-semibold hover:no-underline">{q}</AccordionTrigger><AccordionContent className="pb-6 text-sm leading-7 text-ink-soft">{a}</AccordionContent></AccordionItem>)}</Accordion></div></section>;
 }
 
 function HomePage() {
-  return (
-    <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
-      <Header />
-      <main>
-        <Hero />
-        <About />
-        <Experience />
-        <Why />
-        <Learning />
-        <MediaSection />
-        <Program />
-        <Distribution />
-        <Trainer />
-        <Enrollment />
-        <Faq />
-        <FinalCta />
-      </main>
-      <Footer />
-    </div>
-  );
+  return <div className="min-h-screen overflow-x-hidden bg-background text-foreground"><main><Hero /><Stakes /><About /><Proof /><Learning /><Program /><Location /><Reservation /><Faq /></main><footer className="bg-noir px-5 py-10 text-primary-foreground sm:px-8 lg:px-12"><div className="mx-auto flex max-w-7xl flex-col gap-4 border-t border-primary-foreground/15 pt-8 sm:flex-row sm:items-end sm:justify-between"><p className="font-display text-xl font-semibold uppercase">Fondation The Sisters</p><p className="text-[0.62rem] uppercase tracking-[0.15em] text-primary-foreground/50">Business Start & Sales Bootcamp · 2e édition</p></div></footer></div>;
 }
