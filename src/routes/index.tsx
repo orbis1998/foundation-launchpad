@@ -204,9 +204,9 @@ function Reservation() {
     const lastName = String(form.get("lastName") ?? "").trim();
     const email = String(form.get("email") ?? "").trim();
     const nextErrors: Record<string, string> = {};
-    if (!firstName || firstName.length > 80) nextErrors.firstName = "Indiquez un nom valide.";
-    if (!lastName || lastName.length > 80) nextErrors.lastName = "Indiquez un post-nom valide.";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) nextErrors.email = "Indiquez une adresse email valide.";
+    if (!firstName || firstName.length > 80) nextErrors["firstName"] = "Indiquez un nom valide.";
+    if (!lastName || lastName.length > 80) nextErrors["lastName"] = "Indiquez un post-nom valide.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) nextErrors["email"] = "Indiquez une adresse email valide.";
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) return;
     const message = `Bonjour Fondation The Sisters, je souhaite réserver ma place pour la 2e édition du Business Start & Sales Bootcamp, du 19 au 24 octobre.\n\nNom : ${firstName}\nPost-nom : ${lastName}\nEmail : ${email}`;
@@ -218,9 +218,9 @@ function Reservation() {
         <div><SectionTitle kicker="Réservation" light>Votre place commence ici.</SectionTitle><p className="mt-8 max-w-lg text-base leading-8 text-primary-foreground/65">Remplissez vos informations. Votre demande sera préparée et envoyée directement sur WhatsApp.</p><div className="mt-10 space-y-4 border-t border-primary-foreground/15 pt-8 text-sm"><p className="flex gap-3"><CalendarDays className="size-5 text-gold" /> 19 au 24 octobre · 9h à 11h</p><p className="flex gap-3"><MapPin className="size-5 text-gold" /> Silikin Village, Gombe</p></div></div>
         <form onSubmit={submit} noValidate className="border border-primary-foreground/15 bg-primary-foreground/[0.04] p-7 sm:p-10">
           <div className="grid gap-7 sm:grid-cols-2">
-            <Field label="Nom" name="firstName" error={errors.firstName} />
-            <Field label="Post-nom" name="lastName" error={errors.lastName} />
-            <div className="sm:col-span-2"><Field label="Boîte email" name="email" type="email" error={errors.email} /></div>
+            <Field label="Nom" name="firstName" error={errors["firstName"]} />
+            <Field label="Post-nom" name="lastName" error={errors["lastName"]} />
+            <div className="sm:col-span-2"><Field label="Boîte email" name="email" type="email" error={errors["email"]} /></div>
           </div>
           <Button type="submit" size="editorial" className="mt-8 w-full bg-gold text-noir hover:bg-ivory"><MessageCircle /> Je réserve ma place</Button>
           <p className="mt-4 text-center text-xs leading-5 text-primary-foreground/45">Vous serez redirigé(e) vers WhatsApp pour finaliser votre réservation.</p>
@@ -230,7 +230,7 @@ function Reservation() {
   );
 }
 
-function Field({ label, name, type = "text", error }: { label: string; name: string; type?: string; error?: string }) {
+function Field({ label, name, type = "text", error }: { label: string; name: string; type?: string; error?: string | undefined }) {
   return <label className="block"><span className="text-xs font-bold uppercase tracking-[0.12em] text-gold">{label}</span><input name={name} type={type} maxLength={type === "email" ? 254 : 80} aria-invalid={Boolean(error)} aria-describedby={error ? `${name}-error` : undefined} className="mt-3 h-13 w-full border border-primary-foreground/20 bg-transparent px-4 text-sm text-primary-foreground outline-none transition-colors placeholder:text-primary-foreground/30 focus:border-gold" />{error && <span id={`${name}-error`} className="mt-2 block text-xs text-destructive">{error}</span>}</label>;
 }
 
