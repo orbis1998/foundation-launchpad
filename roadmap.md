@@ -5,3 +5,4 @@
 - [x] Ajouter la carte Google du lieu
 - [x] Ajouter le formulaire de réservation vers WhatsApp
 - [x] Vérifier la page sur ordinateur et mobile
+- [x] Uniformiser la typographie et la casse des titres
