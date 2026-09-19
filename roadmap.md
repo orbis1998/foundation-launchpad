@@ -4,4 +4,4 @@
 - [x] Ajouter les dates, horaires et lieu de la 2e édition
 - [x] Ajouter la carte Google du lieu
 - [x] Ajouter le formulaire de réservation vers WhatsApp
-- [ ] Vérifier la page sur ordinateur et mobile
+- [x] Vérifier la page sur ordinateur et mobile

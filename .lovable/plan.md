@@ -5,4 +5,4 @@
 - [x] Parcours éditorial : enjeux, formatrice, preuves terrain, apprentissages, programme
 - [x] Lieu Silikin Village avec carte Google
 - [x] Formulaire nom, post-nom et email vers WhatsApp
-- [ ] Vérification finale mobile et ordinateur
+- [x] Vérification finale mobile et ordinateur
