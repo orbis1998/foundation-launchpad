@@ -46,7 +46,7 @@ export const program = [
   },
   {
     day: "JOUR 3",
-    title: "APPRENDRE À VENDRE",
+    title: "Apprendre à vendre",
     items: [
       "Pourquoi les gens regardent mais n’achètent pas.",
       "Comment présenter un produit pour donner envie.",
@@ -60,7 +60,7 @@ export const program = [
   },
   {
     day: "JOUR 4",
-    title: "FOURNISSEURS, IMPORTATION & APPROVISIONNEMENT",
+    title: "Fournisseurs, importation & approvisionnement",
     items: [
       "Où trouver des fournisseurs.",
       "Comment leur parler et négocier.",
@@ -74,7 +74,7 @@ export const program = [
   },
   {
     day: "JOUR 5",
-    title: "MARKETING, CONTENU & PUBLICITÉS",
+    title: "Marketing, contenu & publicités",
     items: [
       "Créer du contenu qui attire les bons clients.",
       "Quoi poster chaque jour.",
@@ -89,7 +89,7 @@ export const program = [
   },
   {
     day: "JOUR 6",
-    title: "LANCEMENT & PLAN D’ACTION",
+    title: "Lancement & plan d’action",
     items: [
       "Chaque participant prépare son business.",
       "Création de son offre.",

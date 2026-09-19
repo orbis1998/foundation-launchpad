@@ -71,7 +71,7 @@ function Hero() {
           <p className="mb-7 inline-flex items-center gap-3 border border-gold/40 bg-noir/40 px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[0.2em] text-gold backdrop-blur-md">
             <span className="size-1.5 bg-gold" /> Du 19 au 24 octobre · 9h à 11h
           </p>
-          <h1 className="max-w-5xl font-display text-5xl font-semibold uppercase leading-[0.9] sm:text-7xl lg:text-8xl xl:text-[6.6rem]">
+          <h1 className="max-w-5xl font-display text-5xl font-semibold leading-[0.9] sm:text-7xl lg:text-8xl xl:text-[6.6rem]">
             Business Start <span className="text-gold">& Sales</span> Bootcamp
           </h1>
           <p className="mt-8 max-w-2xl text-base leading-7 text-primary-foreground/75 sm:text-xl">6 jours pour apprendre à lancer, structurer et développer un business qui vend.</p>
@@ -245,5 +245,5 @@ function Faq() {
 }
 
 function HomePage() {
-  return <div className="min-h-screen overflow-x-hidden bg-background text-foreground"><main><Hero /><Stakes /><About /><Proof /><Learning /><Program /><Location /><Reservation /><Faq /></main><footer className="bg-noir px-5 py-10 text-primary-foreground sm:px-8 lg:px-12"><div className="mx-auto flex max-w-7xl flex-col gap-4 border-t border-primary-foreground/15 pt-8 sm:flex-row sm:items-end sm:justify-between"><p className="font-display text-xl font-semibold uppercase">Fondation The Sisters</p><p className="text-[0.62rem] uppercase tracking-[0.15em] text-primary-foreground/50">Business Start & Sales Bootcamp · 2e édition</p></div></footer></div>;
+  return <div className="min-h-screen overflow-x-hidden bg-background text-foreground"><main><Hero /><Stakes /><About /><Proof /><Learning /><Program /><Location /><Reservation /><Faq /></main><footer className="bg-noir px-5 py-10 text-primary-foreground sm:px-8 lg:px-12"><div className="mx-auto flex max-w-7xl flex-col gap-4 border-t border-primary-foreground/15 pt-8 sm:flex-row sm:items-end sm:justify-between"><p className="font-display text-xl font-semibold">Fondation The Sisters</p><p className="text-xs text-primary-foreground/50">Business Start & Sales Bootcamp · 2e édition</p></div></footer></div>;
 }
