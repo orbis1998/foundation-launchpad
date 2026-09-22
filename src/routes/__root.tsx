@@ -14,23 +14,25 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+    <main className="pattern-weave flex min-h-[100dvh] items-center justify-center bg-noir px-5 text-primary-foreground">
+      <div className="max-w-lg border-l border-gold pl-7 sm:pl-10">
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Erreur 404</p>
+        <h1 className="mt-5 font-display text-5xl font-semibold leading-none sm:text-7xl">
+          Cette page n’existe pas.
+        </h1>
+        <p className="mt-6 max-w-md text-sm leading-7 text-primary-foreground/65">
+          Le contenu a peut-être été déplacé. Revenez au bootcamp pour consulter le programme.
         </p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex h-12 items-center justify-center bg-gold px-6 text-xs font-bold uppercase tracking-[0.12em] text-noir transition-colors hover:bg-ivory"
           >
-            Go home
+            Revenir à l’accueil
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
@@ -90,7 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Tenor+Sans&display=swap",
       },
     ],
   }),
