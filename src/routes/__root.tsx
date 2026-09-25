@@ -10,18 +10,24 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
-    <main className="pattern-weave flex min-h-[100dvh] items-center justify-center bg-noir px-5 text-primary-foreground">
+    <main
+      id="contenu"
+      className="pattern-weave flex min-h-[70dvh] items-center justify-center bg-noir px-5 text-primary-foreground"
+    >
       <div className="max-w-lg border-l border-gold pl-7 sm:pl-10">
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">Erreur 404</p>
         <h1 className="mt-5 font-display text-5xl font-semibold leading-none sm:text-7xl">
           Cette page n’existe pas.
         </h1>
         <p className="mt-6 max-w-md text-sm leading-7 text-primary-foreground/65">
-          Le contenu a peut-être été déplacé. Revenez au bootcamp pour consulter le programme.
+          Le contenu a peut-être été déplacé. Revenez à l’accueil pour découvrir la fondation et nos
+          événements.
         </p>
         <div className="mt-6">
           <Link
@@ -120,8 +126,14 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+        <a href="#contenu" className="skip-link">
+          Aller au contenu
+        </a>
+        <SiteHeader />
+        <Outlet />
+        <SiteFooter />
+      </div>
     </QueryClientProvider>
   );
 }

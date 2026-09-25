@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EvenementsRouteImport } from './routes/evenements'
+import { Route as FondationRouteImport } from './routes/fondation'
+import { Route as InscriptionRouteImport } from './routes/inscription'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EvenementsRoute = EvenementsRouteImport.update({
+  id: '/evenements',
+  path: '/evenements',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FondationRoute = FondationRouteImport.update({
+  id: '/fondation',
+  path: '/fondation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InscriptionRoute = InscriptionRouteImport.update({
+  id: '/inscription',
+  path: '/inscription',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/evenements': typeof EvenementsRoute
+  '/fondation': typeof FondationRoute
+  '/inscription': typeof InscriptionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/evenements': typeof EvenementsRoute
+  '/fondation': typeof FondationRoute
+  '/inscription': typeof InscriptionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/evenements': typeof EvenementsRoute
+  '/fondation': typeof FondationRoute
+  '/inscription': typeof InscriptionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/evenements' | '/fondation' | '/inscription'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/evenements' | '/fondation' | '/inscription'
+  id: '__root__' | '/' | '/evenements' | '/fondation' | '/inscription'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EvenementsRoute: typeof EvenementsRoute
+  FondationRoute: typeof FondationRoute
+  InscriptionRoute: typeof InscriptionRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/evenements': {
+      id: '/evenements'
+      path: '/evenements'
+      fullPath: '/evenements'
+      preLoaderRoute: typeof EvenementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fondation': {
+      id: '/fondation'
+      path: '/fondation'
+      fullPath: '/fondation'
+      preLoaderRoute: typeof FondationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inscription': {
+      id: '/inscription'
+      path: '/inscription'
+      fullPath: '/inscription'
+      preLoaderRoute: typeof InscriptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EvenementsRoute: EvenementsRoute,
+  FondationRoute: FondationRoute,
+  InscriptionRoute: InscriptionRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
