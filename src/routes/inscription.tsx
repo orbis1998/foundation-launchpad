@@ -82,13 +82,17 @@ function RegisterPage() {
       <main id="contenu" className="bg-background">
         <section className="px-4 pb-10 pt-12 sm:px-8 lg:px-12 lg:pt-16">
           <div className="mx-auto max-w-[1400px]">
-            <p className="text-sm font-semibold text-primary">{event.brand}</p>
+            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-primary">
+              {event.brand}
+            </p>
             <h1 className="mt-4 font-display text-5xl leading-[0.95] tracking-[-0.03em] sm:text-7xl">
               <span className="block">{offer.receive}</span>
               <span className="block">{offer.whatYou}</span>
               <span className="block text-primary">{offer.withSignup}</span>
             </h1>
-            <p className="mt-8 max-w-2xl text-base leading-8 text-ink-soft">{offer.syllabus}</p>
+            <p className="mt-8 max-w-2xl font-serif text-lg leading-8 text-ink-soft">
+              {offer.syllabus}
+            </p>
             <p className="mt-8 font-display text-6xl text-primary sm:text-7xl">{offer.price}</p>
             <p className="mt-3 text-sm text-muted-foreground">
               {event.dates} {event.month} {event.year} · {event.hours}

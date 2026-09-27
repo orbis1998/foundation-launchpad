@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 
-import trainerImage from "@/assets/IMG_6253.PNG";
+import trainerImage from "../assets/IMG_6253.PNG";
 import { Button } from "@/components/ui/button";
 import { foundationPage, orgName, pageMeta, whatsappNumber } from "@/lib/site-copy";
 
@@ -44,7 +44,9 @@ function FoundationPage() {
       <section className="px-4 pb-16 pt-12 sm:px-8 lg:px-12 lg:pb-20 lg:pt-16">
         <div className="mx-auto grid max-w-[1400px] gap-12 lg:grid-cols-[1fr_0.72fr] lg:items-end">
           <div>
-            <p className="text-sm font-semibold text-primary">{foundationPage.name}</p>
+            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-primary">
+              {foundationPage.name}
+            </p>
             <h1 className="mt-5 text-balance font-display text-5xl leading-[0.95] tracking-[-0.03em] sm:text-7xl">
               {foundationPage.headline}
             </h1>
@@ -64,7 +66,7 @@ function FoundationPage() {
               <p className="text-sm font-semibold text-primary">
                 {pillar.lead ? `${pillar.lead} ${pillar.label}` : pillar.label}
               </p>
-              <p className="mt-6 text-base leading-8 text-ink-soft">{pillar.body}</p>
+                <p className="mt-6 font-serif text-lg leading-8 text-ink-soft">{pillar.body}</p>
             </article>
           ))}
         </div>
@@ -73,7 +75,7 @@ function FoundationPage() {
       <section className="px-4 py-16 sm:px-8 lg:px-12 lg:py-24">
         <div className="mx-auto max-w-[1400px] bg-foreground px-7 py-12 text-primary-foreground sm:px-12 sm:py-16">
           <p className="text-sm font-semibold text-gold">{foundationPage.trustQuestion}</p>
-          <p className="mt-6 max-w-3xl font-display text-3xl leading-snug sm:text-5xl">
+          <p className="mt-6 max-w-3xl font-serif text-3xl leading-snug sm:text-5xl">
             {foundationPage.trustAnswer}
           </p>
         </div>

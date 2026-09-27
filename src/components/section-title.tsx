@@ -12,7 +12,7 @@ export function SectionTitle({
   return (
     <div className="max-w-3xl">
       <p
-        className={`mb-4 text-sm font-semibold ${light ? "text-primary-foreground/60" : "text-primary"}`}
+        className={`mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.22em] ${light ? "text-primary-foreground/60" : "text-primary"}`}
       >
         {kicker}
       </p>

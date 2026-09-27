@@ -1,1 +1,2 @@
-export { whatsappHref, whatsappNumber } from "@/lib/site-copy";
+export const whatsappNumber = "12093465943";
+export const whatsappHref = `https://wa.me/${whatsappNumber}`;

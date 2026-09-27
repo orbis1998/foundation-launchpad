@@ -176,9 +176,9 @@ export const foundationPage = {
 };
 
 export const pageMeta = {
-  homeTitle: "ENTREPRENARIA | Fondation The Sisters",
+  homeTitle: "Fondation The Sisters",
   homeDescription:
-    "Bâtir un business en afique qui attire des ventes. ENTREPRENARIA, du 19 au 24 octobre 2026.",
+    "Transformez votre potentiel en réussite. La Foundation The Sisters, œuvre pour l’accompagnement, à l’autonomisation et au développement des communautés africaines.",
   eventsTitle: "Nos Evenements | Fondation The Sisters",
   eventsDescription: "Événement à venir : ENTREPRENARIA, du 19 au 24 octobre 2026.",
   foundationTitle: "Notre fondation | Fondation The Sisters",

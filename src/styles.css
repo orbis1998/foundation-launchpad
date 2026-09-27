@@ -21,6 +21,7 @@
 @theme inline {
   --font-sans: "Inter", system-ui, sans-serif;
   --font-display: "Tenor Sans", "Times New Roman", serif;
+  --font-serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -215,6 +216,20 @@
 
 @utility text-balance {
   text-wrap: balance;
+}
+
+.masthead-rule {
+  height: 1px;
+  background: color-mix(in oklab, currentColor 22%, transparent);
+}
+
+.drop-cap::first-letter {
+  float: left;
+  margin-right: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 3.4rem;
+  line-height: 0.78;
+  color: var(--primary);
 }
 
 @utility hero-overlay {
